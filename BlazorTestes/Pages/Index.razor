@@ -1,0 +1,81 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+<h1>20+10 = @Calculo.Somar(20,10)</h1>
+<h1>20-10 = @Calculo.Subtrair(20,10)</h1>
+<h1>20*10 = @Calculo.Multiplicar(20,10)</h1>
+@*
+<h1>Pizza</h1>
+<div>
+    <h2>Pizza: @Pizza.Nome</h2>
+    <h2>Data: @Pizza.DataCadastro.ToString("dd MM yyyy")</h2>
+</div>
+
+
+<hr />
+<h1>Pizzas(foreach)</h1>
+@foreach (var produto in GetProdutos()) {
+    @if (produto.Nome.Contains("Calabresa")) {
+        <h3><b>Pizza de Calabresa com desconto de 20%</b></h3>
+    }
+    <h2>Pizza: @produto.Nome</h2>
+    <h2>Data: @produto.DataCadastro.ToString("dd MM yyyy")</h2>
+
+}
+
+<h1>Pizza(for)</h1>
+@for (var i = 0; i < produtos.Count; i++) {
+    @if(i == produtos.Count - 1) {
+        <h3>Este é o último Produto</h3>
+    }
+    <h2>@(i + 1)Pizza: @produtos[0].Nome</h2>
+            <h2>@(i + 1)Data: @produtos[0].DataCadastro.ToString("dd MM yyyy")</h2>
+
+}
+*@
+
+@switch(dia) {
+    case "Monday":
+        mensagem = "Este é o segundo dia da semana";
+        break;
+    case "Friday":
+        mensagem = "Amanhã é sabado";
+        break;
+}
+<p>@mensagem</p>
+@code {
+    string dia = DateTime.Now.DayOfWeek.ToString();
+    string mensagem = "";
+
+    public Produto Pizza { get { return GetProduto(); } }
+
+    public List<Produto> produtos { get { return GetProdutos(); } }
+
+    private List<Produto> GetProdutos() {
+        return new List<Produto>()
+                {
+            new Produto()
+            {
+                Nome = "Pizza Muçarela",
+                DataCadastro = new DateTime(2019, 9, 6)
+            },
+            new Produto()
+            {
+                Nome = "Pizza Calabresa",
+                DataCadastro = new DateTime(2018, 9, 6)
+            },
+            new Produto()
+            {
+                Nome = "Pizza Frango",
+                DataCadastro = new DateTime(2017, 9, 6)
+            }
+        };
+    }
+
+    private Produto GetProduto() {
+        return new Produto() {
+                Nome = "Pizza Muçarela",
+                DataCadastro = new DateTime(2019, 9, 6)
+            };
+    }
+}
